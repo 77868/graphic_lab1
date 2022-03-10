@@ -189,6 +189,7 @@ void PrintLineBresenham(POINT x0, POINT x1,HDC hdc,HWND hwnd,COLORREF color)
 
 	//Присвоение начального значения ошибки исходя из коофицента наклона отрезка (Определяет как координаты будут меняться) 
 	int error = (deltaX > deltaY ? deltaX : -deltaY) / 2;
+	int error2 = error;
 
 	RECT clientRect;
 	//Получение клиентской области
@@ -204,8 +205,10 @@ void PrintLineBresenham(POINT x0, POINT x1,HDC hdc,HWND hwnd,COLORREF color)
 		//Выход из цикла при достижении конечной точки
 		if (x0.x == x1.x && x0.y == x1.y) break;
 		
+		error2 = error;
+
 		//если ошибка по оси X превышает пороговое значение, умешьшаем ошибку на deltaY меняем х координату
-		if (error > -deltaX) 
+		if (error2 > -deltaX) 
 		{ 
 			error -= deltaY;
 			//х координата текщей точки меняется на 1 согласно знаку разности координат
@@ -213,7 +216,7 @@ void PrintLineBresenham(POINT x0, POINT x1,HDC hdc,HWND hwnd,COLORREF color)
 		}
 
 		//если ошибка по оси Y превышает пороговое значение, умешьшаем ошибку на deltaX меняем y координату
-		if (error < deltaY)
+		if (error2 < deltaY)
 		{ 
 			error += deltaX;
 			//y координата текщей точки меняется на 1 согласно знаку разности координат
